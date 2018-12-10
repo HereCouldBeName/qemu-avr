@@ -275,17 +275,6 @@ print_insn_avr (bfd_vma addr, disassemble_info *info)
   int sym_op1 = 0, sym_op2 = 0;
   bfd_vma sym_addr1, sym_addr2;
 
-/*	int ff=0;
-    while(avr_opcodes[ff].name)
-	{
-	   (*prin) (stream, "name: %s\n", avr_opcodes[ff].name);
-	   (*prin) (stream, "opcode: %i\n", *(avr_opcodes[ff].opcode));
-           (*prin) (stream, "bin_opcode: %i\n", avr_opcodes[ff].bin_opcode);
-		ff = ff+1;
-	}      
-*/
-
-
   if (!initialized)
     {
       unsigned int nopcodes;

@@ -2799,8 +2799,6 @@ void gen_intermediate_code(CPUAVRState *env, struct TranslationBlock *tb)
         ctx.inst[1].cpc = ctx.inst[0].npc;
         decode_opc(&ctx, &ctx.inst[1]);
 
-	
-
         /* translate current instruction */
         tcg_gen_insn_start(cpc);
         num_insns++;
@@ -2829,10 +2827,10 @@ void gen_intermediate_code(CPUAVRState *env, struct TranslationBlock *tb)
         if (ctx.singlestep) {
             break; /* single step */
         }
-
         if ((cpc & (TARGET_PAGE_SIZE - 1)) == 0) {
-            break;
+            break; /* page boundary */
         }
+
         ctx.inst[0] = ctx.inst[1]; /* make next inst curr */
 
 	

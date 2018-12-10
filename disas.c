@@ -40,8 +40,6 @@ target_read_memory (bfd_vma memaddr,
     CPUDebug *s = container_of(info, CPUDebug, info);
 
     cpu_memory_rw_debug(s->cpu, memaddr, myaddr, length, 0);
-    
-    
     return 0;
 }
 
@@ -265,8 +263,6 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
     }
 }
 
-
-
 /* Disassemble this for me please... (debugging). */
 void disas(FILE *out, void *code, unsigned long size)
 {
@@ -332,7 +328,6 @@ void disas(FILE *out, void *code, unsigned long size)
 	if (count < 0)
 	    break;
     }
-
 }
 
 /* Look up symbol for debugging purpose.  Returns "" if unknown. */

@@ -3403,7 +3403,6 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
                         uint8_t *buf, int len, int is_write)
 {
     int l;
-    //int tmp = len;
     hwaddr phys_addr;
     target_ulong page;
 
@@ -3413,16 +3412,16 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
         MemTxAttrs attrs;
 
         page = addr & TARGET_PAGE_MASK;
-        phys_addr = cpu_get_phys_page_attrs_debug(cpu, page, &attrs);     
+        phys_addr = cpu_get_phys_page_attrs_debug(cpu, page, &attrs);
         asidx = cpu_asidx_from_attrs(cpu, attrs);
         /* if no physical page mapped, return an error */
         if (phys_addr == -1)
             return -1;
-        l = (page + TARGET_PAGE_SIZE) - addr;     
-	if (l > len)
+        l = (page + TARGET_PAGE_SIZE) - addr;
+        if (l > len)
             l = len;
         phys_addr += (addr & ~TARGET_PAGE_MASK);   
-	if (is_write) {
+        if (is_write) {
             cpu_physical_memory_write_rom(cpu->cpu_ases[asidx].as,
                                           phys_addr, buf, l);
         } else {
@@ -3434,11 +3433,6 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
         buf += l;
         addr += l;
     }
-   /* for(int i=0; i<tmp; i++)
-    {
-        qemu_log("buff: %x\n", buf[i]);
-    }
-    qemu_log("addr: %ld\n", ( long int)addr);*/
     return 0;
 }
 
