@@ -2799,6 +2799,8 @@ void gen_intermediate_code(CPUAVRState *env, struct TranslationBlock *tb)
         ctx.inst[1].cpc = ctx.inst[0].npc;
         decode_opc(&ctx, &ctx.inst[1]);
 
+	
+
         /* translate current instruction */
         tcg_gen_insn_start(cpc);
         num_insns++;
@@ -2827,11 +2829,13 @@ void gen_intermediate_code(CPUAVRState *env, struct TranslationBlock *tb)
         if (ctx.singlestep) {
             break; /* single step */
         }
-        if ((cpc & (TARGET_PAGE_SIZE - 1)) == 0) {
-            break; /* page boundary */
-        }
 
+        if ((cpc & (TARGET_PAGE_SIZE - 1)) == 0) {
+            break;
+        }
         ctx.inst[0] = ctx.inst[1]; /* make next inst curr */
+
+	
     } while (ctx.bstate == BS_NONE && !tcg_op_buf_full());
 
     if (tb->cflags & CF_LAST_IO) {
@@ -2861,6 +2865,18 @@ void gen_intermediate_code(CPUAVRState *env, struct TranslationBlock *tb)
 
 done_generating:
     gen_tb_end(tb, num_insns);
+
+    #ifdef DEBUG_DISAS
+    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+        && qemu_log_in_addr_range(pc_start)) {
+        qemu_log_lock();
+        qemu_log("----------------\n");
+        qemu_log("IN: %s\n", lookup_symbol(pc_start));
+        log_target_disas(cs, pc_start*2,(npc - pc_start) * 2, 0);
+        qemu_log("\n");
+        qemu_log_unlock();
+    }
+    #endif
 
     tb->size = (npc - pc_start) * 2;
     tb->icount = num_insns;

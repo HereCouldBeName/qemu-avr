@@ -81,7 +81,7 @@ static void avr_cpu_reset(CPUState *s)
 static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
 {
     info->mach = bfd_arch_avr;
-    info->print_insn = NULL;
+    info->print_insn = print_insn_avr;
 }
 
 static void avr_cpu_realizefn(DeviceState *dev, Error **errp)

@@ -40,6 +40,8 @@ target_read_memory (bfd_vma memaddr,
     CPUDebug *s = container_of(info, CPUDebug, info);
 
     cpu_memory_rw_debug(s->cpu, memaddr, myaddr, length, 0);
+    
+    
     return 0;
 }
 
@@ -263,6 +265,8 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
     }
 }
 
+
+
 /* Disassemble this for me please... (debugging). */
 void disas(FILE *out, void *code, unsigned long size)
 {
@@ -311,6 +315,8 @@ void disas(FILE *out, void *code, unsigned long size)
     print_insn = print_insn_m68k;
 #elif defined(__s390__)
     print_insn = print_insn_s390;
+#elif defined(__AVR__)
+    print_insn = print_insn_avr;
 #elif defined(__hppa__)
     print_insn = print_insn_hppa;
 #elif defined(__ia64__)
@@ -326,6 +332,7 @@ void disas(FILE *out, void *code, unsigned long size)
 	if (count < 0)
 	    break;
     }
+
 }
 
 /* Look up symbol for debugging purpose.  Returns "" if unknown. */
